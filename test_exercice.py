@@ -68,18 +68,16 @@ class TestExercice(unittest.TestCase):
         )
 
     def test_to_degrees(self):
-        def __to_degrees(rad: float) -> tuple:
-            degrees = math.degrees(rad)
-            minutes = (degrees % 1) * 60
-            seconds = (minutes % 1) * 60
-
-            return degrees - minutes, minutes - seconds, seconds
-            
         values = [2, -4, 5, 4.09]
 
-        output = [exercice.to_degrees(v) for v in values]
-        answer = [__to_degrees(v) for v in values]
-
+        output = [tuple([round(v2, 3) for v2 in exercice.to_degrees(v)]) for v in values]
+        answer = [
+            (114, 35, 29.612),
+            (-229, 10, 59.225),
+            (286, 28, 44.031),
+            (234, 20, 23.058)
+        ]
+        
         self.assertListEqual(
             output,
             answer,
@@ -118,3 +116,5 @@ if __name__ == '__main__':
         loader = unittest.TestLoader()
         suite = loader.loadTestsFromModule(sys.modules[__name__])
         unittest.TextTestRunner(f, verbosity=2).run(suite)
+    # Pour mettre le résultat du log dans la console (plus pratique).
+    print(open("logs/tests_results.txt", "r").read())
